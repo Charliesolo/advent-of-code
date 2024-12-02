@@ -7,7 +7,7 @@ function extractData(data) {
   const tidyLevels = levels.filter((item) => item !== "");
   const outputArr = tidyLevels.map((string) => {
     const arr = string.split(" ");
-    const filterArr = arr.filter((item) => item)
+    const filterArr = arr.filter((item) => item);
     return filterArr.map((strNum) => {
       return Number(strNum);
     });
@@ -18,39 +18,49 @@ function extractData(data) {
 function countSafeLevels(levels) {
   let safeCount = 0;
   levels.forEach((level) => {
-    let safe = true;
-    let isAsc = null;
-    for (let i = 1; i < level.length; i++) {
-      const diff = level[i - 1] - level[i];
-      if (Math.abs(diff) > 3) {
-        safe = false;
-        break
-      }
-      if(level[i - 1] === level[i]){
-        safe = false;
-        break
-      }
-      if (isAsc === null) {
-        isAsc = level[i - 1] < level[i];
-      }
-    if (isAsc && level[i - 1] > level[i]) {
-        safe = false;
-        break
-    }
-    if (isAsc === false && level[i - 1] < level[i]) {
-        safe = false;
-        break
-    }
-      
-    }
-    if (safe) {
-        safeCount++;
+    const isSafe = checkIfSafe(level);
+    const canBeDampened = !isSafe && dampenLevels(level);
+    if (isSafe || canBeDampened) {
+      safeCount++;
     }
   });
   return safeCount;
 }
 
-const realData = extractData(data)
-console.log(countSafeLevels(realData))
+function checkIfSafe(level) {
+  let safe = true;
+  let isAsc = null;
+  for (let i = 1; i < level.length; i++) {
+    const diff = level[i] - level[i - 1];
+    if (Math.abs(diff) > 3) {
+      safe = false;
+      break;
+    }
+    if (level[i - 1] === level[i]) {
+      safe = false;
+      break;
+    }
+    if (isAsc === null) {
+      isAsc = diff > 0;
+    } else if ((isAsc && diff < 0) || (!isAsc && diff > 0)) {
+      safe = false;
+      break;
+    }
+  }
+  return safe;
+}
 
-module.exports = { extractData, countSafeLevels };
+function dampenLevels(level) {
+  for (let i = 0; i < level.length; i++) {
+    const reducedLevel = [...level.slice(0, i), ...level.slice(i + 1)];
+    if (checkIfSafe(reducedLevel)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const levels = extractData(data);
+console.log("Safe levels: ", countSafeLevels(levels));
+
+module.exports = { extractData, countSafeLevels, dampenLevels };

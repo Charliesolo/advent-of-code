@@ -1,4 +1,4 @@
-const { extractData, countSafeLevels } = require("../day-2")
+const { extractData, countSafeLevels, dampenLevels } = require("../day-2")
 
 const testData = `7 6 4 2 1
 1 2 7 8 9
@@ -36,5 +36,16 @@ describe("countSafeLevels", () => {
             8 6 4 4 1
             1 3 6 7 9`))
         expect(output).toBe(2)
+    })
+})
+
+describe("dampenLevels", () => {
+    test("dampen levels should return true if removing one number results in a safe array", () => {
+        const output = dampenLevels([8,6,4,4,1])
+        expect(output).toBe(true)
+    })
+    test("dampen levels should return false if removing one number does not result in a safe array", () => {
+        const output = dampenLevels([8,6,6,4,4,1])
+        expect(output).toBe(true)
     })
 })
