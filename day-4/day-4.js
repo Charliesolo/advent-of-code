@@ -1,3 +1,4 @@
+const { log } = require("console");
 const fs = require("fs");
 const data = fs.readFileSync("./day-4/data.txt", "utf8");
 
@@ -77,8 +78,60 @@ function countMatches(rows) {
   return total;
 }
 
-const rows = rowData(data)
-const total = countMatches(rows)
-console.log({total})
+function countXs(rows) {
+  let total = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    for (let j = 0; j < row.length; j++) {
+      if (row[j] === "M" && i + 2 < rows.length && j + 2 < row.length) {
+        if (rows[i + 2][j] === "M") {
+          if (
+            row[j + 2] === "S" &&
+            rows[i + 1][j + 1] === "A" &&
+            rows[i + 2][j + 2] === "S"
+          ) {
+            total++;
+          }
+        }
+        if (rows[i + 2][j] === "S") {
+          if (
+            row[j + 2] === "M" &&
+            rows[i + 1][j + 1] === "A" &&
+            rows[i + 2][j + 2] === "S"
+          ) {
+            total++;
+          }
+        }
+      }
+      if (row[j] === "S" && i + 2 < rows.length && j + 2 < row.length) {
+        if (rows[i + 2][j] === "M") {
+          if (
+            row[j + 2] === "S" &&
+            rows[i + 1][j + 1] === "A" &&
+            rows[i + 2][j + 2] === "M"
+          ) {
+            total++;
+          }
+        }
+        if (rows[i + 2][j] === "S") {
+          if (
+            row[j + 2] === "M" &&
+            rows[i + 1][j + 1] === "A" &&
+            rows[i + 2][j + 2] === "M"
+          ) {
+            total++;
+          }
+        }
+      }
+    }
+  }
+  return total;
+}
 
-module.exports = { rowData, countMatches };
+const rows = rowData(data);
+const total = countMatches(rows);
+const totalXs = countXs(rows);
+console.log({ total });
+log({totalXs})
+
+module.exports = { rowData, countMatches, countXs };

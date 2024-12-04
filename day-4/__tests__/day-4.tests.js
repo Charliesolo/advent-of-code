@@ -1,4 +1,4 @@
-const { rowData, countMatches } = require("../day-4");
+const { rowData, countMatches, countXs } = require("../day-4");
 
 const testData = `MMMSXXMASM
 MSAMXMSMSA
@@ -97,3 +97,47 @@ describe("countMatches", () => {
     expect(output).toBe(18);
   });
 });
+
+describe("countXs", () =>{
+    test("works with both left to right", ()=> {
+        const rows = rowData(`
+            XXXXXXXX
+            XXXMXSXX
+            XXXXAXXX
+            XXXMXSXX`);
+        const output = countXs(rows);
+        expect(output).toBe(1);
+    })
+    test("works with top left to right, bottom right to left", ()=> {
+        const rows = rowData(`
+            XXXXXXXX
+            XXXMXMXX
+            XXXXAXXX
+            XXXSXSXX`);
+        const output = countXs(rows);
+        expect(output).toBe(1);
+    })
+    test("works with top right to left, bottom left to rigth", ()=> {
+        const rows = rowData(`
+            XXXXXXXX
+            XXXSXSXX
+            XXXXAXXX
+            XXXMXMXX`);
+        const output = countXs(rows);
+        expect(output).toBe(1);
+    })
+    test("works with both right to left", ()=> {
+        const rows = rowData(`
+            XXXXXXXX
+            XXXSXMXX
+            XXXXAXXX
+            XXXSXMXX`);
+        const output = countXs(rows);
+        expect(output).toBe(1);
+    })
+    test("it works", ()=> {
+        const rows = rowData(testData);
+        const output = countXs(rows);
+        expect(output).toBe(9);
+    })
+})
