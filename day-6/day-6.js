@@ -67,10 +67,10 @@ function moveGuard(map, count = 0) {
     if (row - 1 > -1) {
       if (map[row - 1][col] === "#") {
         map[row][col] = ">";
-        count--
+        count--;
       } else {
         map[row - 1][col] = "^";
-        count++
+        count++;
       }
     } else {
       return map;
@@ -88,9 +88,9 @@ function moveGuard(map, count = 0) {
       return map;
     }
   }
-  count++
-  if(count > 5000){
-    return map
+  count++;
+  if (count > 5000) {
+    return map;
   }
   return moveGuard(map, count);
 }
@@ -107,10 +107,10 @@ function totalXs(map) {
   return total;
 }
 
-const map = arrayMap(data)
-const movedMap = moveGuard(map)
-const movedMapTwo = moveGuard(movedMap)
-const total = totalXs(movedMapTwo)
-console.log({total})
+const map = arrayMap(data);
+const movedMap = moveGuard(map);
+const movedMapTwo = moveGuard(movedMap);
+const total = totalXs(movedMapTwo);
+console.log({ total });
 
 module.exports = { arrayMap, findGuard, moveGuard, totalXs };
