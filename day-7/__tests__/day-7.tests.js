@@ -1,4 +1,4 @@
-const { processData, checkEquation, checkSpecificCombo, totalValidEquations } = require("../day-7");
+const { processData, checkEquation, checkSpecificCombo, totalValidEquations, checkSpecificCombo2, totalValidEquations2 } = require("../day-7");
 const testData = `
 190: 10 19
 3267: 81 40 27
@@ -65,3 +65,38 @@ test("totals the target of all valid equations in an array", () => {
     expect(output).toBe(3749)
 })
 })
+
+describe("checkSpecificCombo2", () =>{
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(7290, [6, 8, 6, 15], "*|*")
+        expect(output).toBe(true)
+    })
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(192, [17, 8, 14], "|+")
+        expect(output).toBe(true)
+    })
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(156, [15, 6], "|")
+        expect(output).toBe(true)
+    })
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(306, [2, 15, 6], "*|")
+        expect(output).toBe(true)
+    })
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(292, [11, 6,16,20], "+*+")
+        expect(output).toBe(true)
+    })
+    test("returns true if first item can be using a mixture of operators", () => {
+        const output = checkSpecificCombo2(190, [10, 19], "*")
+        expect(output).toBe(true)
+    })
+} ) 
+
+describe("totalValidEquations2", () => {
+    test("totals the target of all valid equations in an array", () => {
+        const data = processData(testData)
+        const output = totalValidEquations2(data)
+        expect(output).toBe(11387)
+    })
+    })
